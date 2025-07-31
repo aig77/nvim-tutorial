@@ -30,6 +30,7 @@ local lsp_keymaps = {
 
 return {
 	"neovim/nvim-lspconfig",
+	dependencies = { "hrsh7th/cmp-nvim-lsp" },
 	config = function()
 		local on_attach = function(_, bufnr)
 			for _, map in ipairs(lsp_keymaps) do
@@ -38,7 +39,7 @@ return {
 			end
 		end
 
-		local capabilities = vim.lsp.protocol.make_client_capabilities()
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
 
 		local lspconfig = require("lspconfig")
 		for _, name in ipairs(servers) do
