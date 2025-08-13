@@ -29,7 +29,10 @@
             alejandra.enable = true;
             statix.enable = true;
             stylua.enable = true;
-            luacheck.enable = true;
+            luacheck = {
+              enable = true;
+              args = ["init.lua" "./lua" "--globals" "vim"];
+            };
           };
         };
       };

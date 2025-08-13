@@ -32,6 +32,9 @@ return {
 	"neovim/nvim-lspconfig",
 	dependencies = { "hrsh7th/cmp-nvim-lsp" },
 	config = function()
+		local lspconfig = require("lspconfig")
+		local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
 		local on_attach = function(_, bufnr)
 			for _, map in ipairs(lsp_keymaps) do
 				local mode, lhs, rhs, desc = map[1], map[2], map[3], map[4]
@@ -39,14 +42,19 @@ return {
 			end
 		end
 
-		local capabilities = require("cmp_nvim_lsp").default_capabilities()
-
-		local lspconfig = require("lspconfig")
 		for _, name in ipairs(servers) do
-			lspconfig[name].setup({
-				on_attach = on_attach,
-				capabilities = capabilities,
-			})
+			local opts = { on_attach = on_attach, capabilities = capabilities }
+			if name == "lua_ls" then
+				opts.settings = {
+					Lua = {
+						runtime = { version = "LuaJIT" },
+						diagnostics = { globals = { "vim" } }, -- <- replaces .luarc.json/.luacheckrc
+						workspace = { checkThirdParty = false },
+						telemetry = { enable = false },
+					},
+				}
+			end
+			lspconfig[name].setup(opts)
 		end
 	end,
 }
