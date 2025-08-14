@@ -7,3 +7,16 @@ vim.opt.number = true -- Shows absolute line numbers for all lines
 vim.opt.relativenumber = true -- Shows relative numbers except current line
 vim.opt.wrap = true
 vim.opt.termguicolors = true
+
+-- Copy to system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>y", '"+y', { desc = "Copy to system clipboard" })
+
+-- Copy entire line to system clipboard
+vim.keymap.set("n", "<leader>Y", '"+Y', { desc = "Copy line to system clipboard" })
+
+-- Copy entire buffer to system clipboard
+vim.keymap.set("n", "<leader>ya", 'ggVG"+y', { desc = "Copy entire buffer to system clipboard" })
+
+-- Paste from system clipboard
+vim.keymap.set({ "n", "v" }, "<leader>p", '"+p', { desc = "Paste from system clipboard" })
+vim.keymap.set({ "n", "v" }, "<leader>P", '"+P', { desc = "Paste before cursor from system clipboard" })
